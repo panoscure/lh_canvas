@@ -22,17 +22,17 @@ class login_logout():
         time.sleep(1)
         #click on the Accept cookies button
         self.driver.find_element_by_id("onetrust-accept-btn-handler").send_keys(Keys.ENTER)
-        time.sleep(3)
+        time.sleep(2)
         #click on the Accept terms button
         self.driver.find_element_by_xpath('//*[@id="mainScroll"]/header/div[2]/div[3]/div[2]/div/div/div[2]/button[1]').send_keys(Keys.ENTER)
 
-    def login(self):
+    def login(self,username,password):
         # Enter Username
-        self.driver.find_element_by_xpath("//input[@placeholder='Please enter username or email']").send_keys("skandalaki")
+        self.driver.find_element_by_xpath("//input[@placeholder='Please enter username or email']").send_keys(username)
         # time.sleep(1)
 
         # Enter Password
-        self.driver.find_element_by_xpath("//input[@placeholder='Please enter password']").send_keys("123456q!")
+        self.driver.find_element_by_xpath("//input[@placeholder='Please enter password']").send_keys(password)
         # time.sleep(3)
 
         # find and click submit button to login
@@ -51,7 +51,7 @@ class login_logout():
             self.driver.find_element_by_class_name("close").send_keys(Keys.ENTER)
 
             # identify image
-            l = driver.find_element_by_xpath("//img[@alt='skandalaki']")
+            l = self.driver.find_element_by_xpath("//img[@alt='skandalaki']")
             s = l.get_attribute("title");
             print("Title attribute value is :" + s);
             l.click();
@@ -78,7 +78,7 @@ class login_logout():
         else:
             print("something went wrong with the logout")
 
-
+'''
 setup = login_logout()
 #initial setup, open browser, close cookies etc.
 setup.setUp()
@@ -95,4 +95,4 @@ setup.verify_logout()
 #close the browser
 driver.close()
 print("sample test case successfully completed")
-
+'''

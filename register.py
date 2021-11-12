@@ -9,7 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import random
 import string
 import re
-
+from lh_xls_class import lh_xls
+from PIL import Image
 
 
 class register():
@@ -57,7 +58,7 @@ class register():
         password = ''.join(password_list)
         return password
 
-    def setUp(self):
+    def setUp(self,link):
         print("Register test case started")
         self.driver = webdriver.Chrome(r"C:\Users\maurogiannopoulos\PycharmProjects\pythonProjectTest\Browsers\chromedriver.exe")
         # wait time before close
@@ -65,7 +66,7 @@ class register():
         #Full window
         self.driver.maximize_window()
         # navigate to the url
-        self.driver.get("http://lhmbqa.intralot.com/")
+        self.driver.get(link)
         time.sleep(1)
         #click on the Accept cookies button
         self.driver.find_element_by_id("onetrust-accept-btn-handler").send_keys(Keys.ENTER)
@@ -73,7 +74,7 @@ class register():
         #Find and press register button
         self.driver.find_element_by_xpath('//button[text()="Register"]').send_keys(Keys.ENTER)
 
-    def bit8SetUp(self):
+    def bit8SetUp(self,bit8_link):
         print("Register test case started")
         self.driver = webdriver.Chrome(r"C:\Users\maurogiannopoulos\PycharmProjects\pythonProjectTest\Browsers\chromedriver.exe")
         # wait time before close
@@ -81,7 +82,7 @@ class register():
         #Full window
         self.driver.maximize_window()
         # navigate to the url
-        self.driver.get("http://10.85.42.10:1024/index.php/site/login#/../players/Index")
+        self.driver.get(bit8_link)
         time.sleep(1)
         #click on the Accept cookies button
         #self.driver.find_element_by_id("onetrust-accept-btn-handler").send_keys(Keys.ENTER)
@@ -89,15 +90,15 @@ class register():
         #Find and press register button
         #self.driver.find_element_by_xpath('//button[text()="Register"]').send_keys(Keys.ENTER)
 
-    def bit8_change_name(self):
+    def bit8_change_name(self,bit8_user,bit8_password):
 
         # Enter Username
         time.sleep(1)
-        self.driver.find_element_by_xpath('//*[@id="login_username"]').send_keys("fatuser20180126")
+        self.driver.find_element_by_xpath('//*[@id="login_username"]').send_keys(bit8_user)
         time.sleep(3)
 
         # Enter Password
-        self.driver.find_element_by_xpath('//*[@id="login_password"]').send_keys("qoUjmWXtoab1vR86mm3g7")
+        self.driver.find_element_by_xpath('//*[@id="login_password"]').send_keys(bit8_password)
         time.sleep(3)
         # Enter Password confirmation
         self.driver.find_element_by_xpath('//*[@id="submit_button"]').click()
@@ -300,23 +301,36 @@ class register():
             print("something went wrong with the logout")
 
 
+
+xls = lh_xls()
+link = xls.get_link()
+bit8_link = xls.get_bit8_link()
+bit8_user = xls.get_bit8_user()
+bit8_password = xls.get_bit8_password()
+
 setup = register()
 
 
 
 #initial setup, open browser, close cookies etc.
-setup.setUp()
+setup.setUp(link)
 driver = setup.driver
 #Find and press login button
 setup.register_process()
+
+#screenshot
+driver.save_screenshot("ss.png")
+screenshot = Image.open("ss.png")
+screenshot.show()
+
 #close browser
 #driver.close()
 
 #bit8 Clear user just created
 #bit8 login
-setup.bit8SetUp()
+setup.bit8SetUp(bit8_link)
 #change the name for bit8
-setup.bit8_change_name()
+setup.bit8_change_name(bit8_user,bit8_password)
 
 
 
